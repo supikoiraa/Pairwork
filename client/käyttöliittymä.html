@@ -16,12 +16,12 @@
 
 <p>Save link to database </p>
 <form action="/insert" method="POST" class="form-horizontal">
-     <input type="text" id="longurl_input" name="longurl" placeholder="Insert url to shorten">
+     <input type="url" id="longurl_input" name="longurl" placeholder="Insert url to shorten">
      <input type="submit" name="Submit" value="Insert" class="btn">
 </form>
 
 <p>Connect to website using generated shorturl </p>
-<form action="/search" method="POST" class="form-horizontal">
+<form action="/search" method="POST" class="form-horizontal" >
      <input type="text" id="short_input" name="shortened" placeholder="Short url">
      <input type="submit" name="Submit" value="Search and Go" class="btn">
 </form>

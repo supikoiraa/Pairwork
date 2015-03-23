@@ -32,9 +32,11 @@ exports.redirect= function(req,res){
   });
 }
 exports.insert= function(req, res){
-   req.body.shorturl = shortid.generate(req.body.longurl);
+  req.body.shorturl = shortid.generate(req.body.longurl);
+   //var url = new Url({url: req.body.url,slug: shortid.generate(req.body.longurl)});
+
     var insert = {address_long:req.body.longurl,address_short:req.body.shorturl};
-  connection.query("INSERT INTO links SET ?",insert , function(err,rows,fields){
+  connection.query("INSERT INTO links SET ?",insert , function(err, rows, fields){
     if (err){
         console.log("Cannot insert links database");
     }
@@ -42,9 +44,14 @@ exports.insert= function(req, res){
 
        // res.redirect('index',{rows:rows});
        console.log(JSON.stringify(rows));
+       res.redirect('/');
     }
-  }
+}
+
 )};
+
+
+
 /*
 function linkit(){
 $.get('/showdb', function(data){
@@ -66,19 +73,16 @@ var loki = data;
 console.log(data);
 $( '#links' ).empty();
 /*Luodaan pari muuttujaa taulukon ylimmän rivin tulostamista varten*/
-var id = "<b>Link's ID</b>";
 var longurl = "<b>Long Url </b>";
 var shorturl = "<b>Short Url</b>";
 /*Luodaan taulukko ja tulostetaan siihen työntekijän nimi ja ID*/
 var $table = $( '<table class="table"></table>' );
 var $line = $( "<tr></tr>" );
-$line.append( $( "<td></td>" ).html( id ) );
 $line.append( $( "<td></td>" ).html( longurl ) );
 $line.append( $( "<td></td>" ).html( shorturl ) );
 $table.append( $line );
 for ( i in loki ) {
 var $line = $( "<tr></tr>" );
-$line.append( $( "<td></td>" ).html( loki[i].ID ) );
 $line.append( $( "<td></td>" ).html( loki[i].address_long ) );
 $line.append( $( "<td></td>" ).html( loki[i].address_short ) );
 $table.append( $line );
@@ -86,4 +90,4 @@ $table.append( $line );
 /*Liitetään taulukko HTML-dokumenttiin*/
 $table.appendTo( $( '#links' ) );
 });
-}
+};

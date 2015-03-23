@@ -17,12 +17,14 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
 host     : 'localhost',
 user     : 'root',
-password : '******',
+password : '*******',
 database : 'Shortener'
 });
 
 app.use(require('connect').bodyParser());
 app.post('/insert', functio.insert);
+	
+
 app.post('/search', functio.redirect);
 
 app.get('/showdb', function(req, res) {
