@@ -5,7 +5,6 @@ CREATE TABLE links (
 ID int NOT NULL AUTO_INCREMENT,
 address_long  VARCHAR(50),
 address_short VARCHAR(50),
-description VARCHAR(255),
 lisatty TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (ID)
 )ENGINE=innoDB;

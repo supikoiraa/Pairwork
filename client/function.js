@@ -1,56 +1,89 @@
+/*
+https://github.com/dylang/shortid
+Copyright (c) Dylan Greene
+All rights reserved. 
+*/
 
+var mysql = require('mysql');
+var shortid = require('shortid');
 
-//Tulostetaan kaikki tuotelista taulussa olevat tuotteet
-function tuote(){
-$.get('/nimi', function(data){
-  var tuote = data;
-    var out = "";
-    var i;
-    for(i in tuote) {
-      var name = tuote[i].nimi;
-     out +=  "Tilauksen numero: " +tuote[i].tilausid +" \t "+"Nimi: "+ name  +"\t"+"Tuotteen Hinta: " +tuote[i].hinta +"<br>  ";
-     
-     document.getElementById("tuote").innerHTML = out;
-    }
-    });
-};
-
-//Tulostetaan ostotapahtumat, jotka tehty 4.11.2014
-function osto(){
-$.get('/osto', function(data){
-  var tuote = data;
-    var out = "";
-    var i;
-    for(i in tuote) {
-      var tilausid =tuote[i].tilausid;
-      var pvm = tuote[i].pvm;
-     out +=  "Ostotapahtuma: " +tilausid +" \t "+"Asiakkaan etunimi: "+tuote[i].etunimi +"\t"+"Ostopäivä : " +pvm +"<br>  ";
-     
-     document.getElementById("osto").innerHTML = out;
-    }
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '*******',
+  database : 'Shortener'
 });
-};
-//Tulostetaan palkkaerittelyt, joissa työntekijän palkka ylittänyt 2800€
-function palkka(){
-$.get('/palkka', function(data){
+exports.redirect= function(req,res){
+  var link = req.body.shortened;
+  var Query = "SELECT address_long FROM links WHERE address_short LIKE '"+link+"'";
+  var sendThis;
+
+  connection.query( Query, function(err, rows, fields){
+    if(err){
+    
+      console.log("No links were found!");
+    }else
+    {
+      console.log(JSON.stringify(rows));
+      for (i in rows)
+      {var linkki =rows[i].address_long}
+      res.redirect(301,linkki);
+      }
+  });
+}
+exports.insert= function(req, res){
+   req.body.shorturl = shortid.generate(req.body.longurl);
+    var insert = {address_long:req.body.longurl,address_short:req.body.shorturl};
+  connection.query("INSERT INTO links SET ?",insert , function(err,rows,fields){
+    if (err){
+        console.log("Cannot insert links database");
+    }
+    else{
+
+       // res.redirect('index',{rows:rows});
+       console.log(JSON.stringify(rows));
+    }
+  }
+)};
+/*
+function linkit(){
+$.get('/showdb', function(data){
   var tuote = data;
     var out = "";
     var i;
     for(i in tuote) {
-      var name = tuote[i].nimi;
-     out +=  "Palkkaerittely id: " +tuote[i].palkkaid +" \t "+"Nimi: "+ tuote[i].etunimi +"\t"+"Maksettu : " +tuote[i].palkka +"€"+"<br>  ";
+    
+     out +="Linkin ID: "+tuote[i].ID +" \t "+ "Longurl: " +tuote[i].address_long +" \t "+"Shorturl: " +tuote[i].address_short +"<br>  ";
      
-     document.getElementById("palkka").innerHTML = out;
+     document.getElementById("links").innerHTML = out;
     }
     });
 };
-
-
-
-/*Sivun tyhjennys*/
-function tyhjennys() {
-  $( '#tuote' ).empty();
-  $( '#palkka' ).empty();
-  $( '#osto' ).empty();
+*/
+function linkit() {
+$.get('/showdb', function(data){
+var loki = data;
+console.log(data);
+$( '#links' ).empty();
+/*Luodaan pari muuttujaa taulukon ylimmän rivin tulostamista varten*/
+var id = "<b>Link's ID</b>";
+var longurl = "<b>Long Url </b>";
+var shorturl = "<b>Short Url</b>";
+/*Luodaan taulukko ja tulostetaan siihen työntekijän nimi ja ID*/
+var $table = $( '<table class="table"></table>' );
+var $line = $( "<tr></tr>" );
+$line.append( $( "<td></td>" ).html( id ) );
+$line.append( $( "<td></td>" ).html( longurl ) );
+$line.append( $( "<td></td>" ).html( shorturl ) );
+$table.append( $line );
+for ( i in loki ) {
+var $line = $( "<tr></tr>" );
+$line.append( $( "<td></td>" ).html( loki[i].ID ) );
+$line.append( $( "<td></td>" ).html( loki[i].address_long ) );
+$line.append( $( "<td></td>" ).html( loki[i].address_short ) );
+$table.append( $line );
 }
-
+/*Liitetään taulukko HTML-dokumenttiin*/
+$table.appendTo( $( '#links' ) );
+});
+}
