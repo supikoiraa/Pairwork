@@ -3,6 +3,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var path = require("path");
 
+
 var functio = require("./client/function.js")
 // vasta lisätty
 var port = 3000;
@@ -23,10 +24,7 @@ database : 'Shortener'
 
 app.use(require('connect').bodyParser());
 app.post('/insert', functio.insert);
-	
-
 app.post('/search', functio.redirect);
-
 app.get('/showdb', function(req, res) {
   var Query = 'SELECT * FROM links';
   var sendThis;
@@ -39,13 +37,15 @@ app.get('/showdb', function(req, res) {
   });
 });
 
+
+
 app.get('*', function(req, res, next) {
   var err = new Error();
   err.status = 404;
   next(err);
 });
  
-// handling 404 errors
+// käsitellään 404 errorit
 app.use(function(err, req, res, next) {
   if(err.status !== 404) {
     return next();

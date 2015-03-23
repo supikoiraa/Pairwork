@@ -6,7 +6,6 @@ All rights reserved.
 
 var mysql = require('mysql');
 var shortid = require('shortid');
-
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -29,44 +28,32 @@ exports.redirect= function(req,res){
       {var linkki =rows[i].address_long}
       res.redirect(301,linkki);
       }
+
   });
 }
+
 exports.insert= function(req, res){
   req.body.shorturl = shortid.generate(req.body.longurl);
-   //var url = new Url({url: req.body.url,slug: shortid.generate(req.body.longurl)});
+  var fullUrl = req.protocol + '://' + req.get('host') +'/' +req.body.shorturl;
 
-    var insert = {address_long:req.body.longurl,address_short:req.body.shorturl};
+ console.log(fullUrl);
+
+ var insert = {address_long:req.body.longurl,address_short:fullUrl};
+
   connection.query("INSERT INTO links SET ?",insert , function(err, rows, fields){
     if (err){
         console.log("Cannot insert links database");
+       res.redirect(303,'/');
     }
     else{
-
-       // res.redirect('index',{rows:rows});
        console.log(JSON.stringify(rows));
-       res.redirect('/');
-    }
+       res.redirect(303,'/');
+     }
 }
 
 )};
 
 
-
-/*
-function linkit(){
-$.get('/showdb', function(data){
-  var tuote = data;
-    var out = "";
-    var i;
-    for(i in tuote) {
-    
-     out +="Linkin ID: "+tuote[i].ID +" \t "+ "Longurl: " +tuote[i].address_long +" \t "+"Shorturl: " +tuote[i].address_short +"<br>  ";
-     
-     document.getElementById("links").innerHTML = out;
-    }
-    });
-};
-*/
 function linkit() {
 $.get('/showdb', function(data){
 var loki = data;
@@ -75,7 +62,7 @@ $( '#links' ).empty();
 /*Luodaan pari muuttujaa taulukon ylimmän rivin tulostamista varten*/
 var longurl = "<b>Long Url </b>";
 var shorturl = "<b>Short Url</b>";
-/*Luodaan taulukko ja tulostetaan siihen työntekijän nimi ja ID*/
+/*Luodaan taulukko johon sijoitetaan lyhyt ja pitkä url*/
 var $table = $( '<table class="table"></table>' );
 var $line = $( "<tr></tr>" );
 $line.append( $( "<td></td>" ).html( longurl ) );
