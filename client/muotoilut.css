@@ -1,15 +1,47 @@
-
 body{
-	position: fixed;
+	font: 1.5em verdana;
 }
+
+html { 
+  background: url(http://bgfons.com/upload/clouds_texture2879.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+input{
+	font: 1.5em verdana;
+	
+}
+
+
+p {
+	font: 1em verdana;
+}
+
 .bu{
-color: white;
-border-radius: 4px;
-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-background: rgb(66, 184, 221);
+	color: white;
+	border-radius: 4px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	background: rgb(66, 184, 221);
+	font: 1.5em verdana;
+	margin-top: 0.5em;
 }
+
 h1 {
-    font-size: 20px;
+    font-size: 60px;
     font-family: "verdana"
+	width:100%
+	max-width:600px;
+	text-align:center;
+	margin: 0 auto;
+}
+
+.container{
+	width:100%
+	max-width:600px;
+	text-align:center;
+	margin: 0 auto;
 }
 

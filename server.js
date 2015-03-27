@@ -3,7 +3,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var path = require("path");
 var functio = require("./client/function.js")
-
+var port = 3000;
 //Määritellään mistä käyttöliittymän kilkkeet löytyy
 app.use(express.static(__dirname + '/client'));
 app.use(require('connect').bodyParser());
@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
-	password : '*******',
+	password :  '*******',
 	database : 'Shortener'
 });
 

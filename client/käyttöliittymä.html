@@ -8,21 +8,24 @@
 
 
 <title>
-Shortener
+          URL Shortener
 </title>
 </head>
-	<h1>Url Shortener</h1>
+     <h1>Url Shortener</h1>
 <body>
-<div id="container">
-<p>Save links to database </p>
-<form action="/insert" method="POST" class="form-horizontal">
-     <input type="url" id="longurl_input" name="longurl" placeholder="Insert url to shorten">
-     <button class="bu" type="submit" name="Submit" value="Insert" class="btn">Insert</button>
-     <button class="bu" type="button" onclick="linkit();">Show generated shorturls </button>
-</form>
-</div>
-<div id="links"></div>
-<script src="function.js" type="text/javascript"></script>
+     <div class="container">
+          <p>Save link to database. </p>
+          <form action="/insert" method="POST" class="form-horizontal">
+                <input type="url" id="longurl_input" name="longurl" placeholder="Insert url to shorten">
+                <input type="submit" name="Submit" value="Insert" class="btn">
+          </form>
+
+          <button class="bu" type="button" onclick="linkit();">Show generated shorturls </button>
+          
+          <div id="links"></div>
+          
+          <script src="function.js" type="text/javascript"></script>
+     </div>
 </body>
 
 </html>
