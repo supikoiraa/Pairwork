@@ -12,8 +12,10 @@ var connection = mysql.createConnection({
   password : '*******',
   database : 'Shortener'
 });
-exports.redirect= function(req,res){
-  var link = req.body.shortened;
+
+//Uudelleen ohjaus alkuperäisen urlin osoitteeseen.
+exports.redirect= function(req,res,next){
+  var link = req.params.uid;
   var Query = "SELECT address_long FROM links WHERE address_short LIKE '"+link+"'";
   var sendThis;
 
@@ -32,13 +34,12 @@ exports.redirect= function(req,res){
   });
 }
 
+//tietokantaan lisääminen 
 exports.insert= function(req, res){
-  req.body.shorturl = shortid.generate(req.body.longurl);
-  var fullUrl = req.protocol + '://' + req.get('host') +'/' +req.body.shorturl;
-
- console.log(fullUrl);
-
- var insert = {address_long:req.body.longurl,address_short:fullUrl};
+//osoitteen lyhentäminen shortid-moduulilla
+req.body.shorturl = shortid.generate(req.body.longurl);
+ 
+ var insert = {address_long:req.body.longurl,address_short:req.body.shorturl};
 
   connection.query("INSERT INTO links SET ?",insert , function(err, rows, fields){
     if (err){
@@ -53,7 +54,7 @@ exports.insert= function(req, res){
 
 )};
 
-
+//Html:ään tulostaminen
 function linkit() {
 $.get('/showdb', function(data){
 var loki = data;
@@ -71,7 +72,7 @@ $table.append( $line );
 for ( i in loki ) {
 var $line = $( "<tr></tr>" );
 $line.append( $( "<td></td>" ).html( loki[i].address_long ) );
-$line.append( $( "<td></td>" ).html( loki[i].address_short ) );
+$line.append( $( "<td></td>" ).html( "http://localhost:3000/"+loki[i].address_short ));
 $table.append( $line );
 }
 /*Liitetään taulukko HTML-dokumenttiin*/

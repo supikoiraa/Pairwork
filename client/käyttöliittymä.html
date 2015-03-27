@@ -11,21 +11,16 @@
 		Shortener
 </title>
 </head>
-	<h1>Url shortener</h1>
+	<h1>Url Shortener</h1>
 <body>
-
-<p>Save link to database </p>
+<div id="container">
+<p>Save links to database </p>
 <form action="/insert" method="POST" class="form-horizontal">
      <input type="url" id="longurl_input" name="longurl" placeholder="Insert url to shorten">
-     <input type="submit" name="Submit" value="Insert" class="btn">
+     <button class="bu" type="submit" name="Submit" value="Insert" class="btn">Insert</button>
+     <button class="bu" type="button" onclick="linkit();">Show generated shorturls </button>
 </form>
-
-<p>Connect to website using generated shorturl </p>
-<form action="/search" method="POST" class="form-horizontal" >
-     <input type="text" id="short_input" name="shortened" placeholder="Short url">
-     <input type="submit" name="Submit" value="Search and Go" class="btn">
-</form>
-<button class="bu" type="button" onclick="linkit();">Show generated shorturls </button>
+</div>
 <div id="links"></div>
 <script src="function.js" type="text/javascript"></script>
 </body>
