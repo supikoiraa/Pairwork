@@ -34,6 +34,7 @@ app.get('/showdb', function(req, res) {
       
   });
 });
+//uudelleen ohjaus.
 app.get('/:uid',functio.redirect);
 
 //Määritellään niin, että 404-error luodaan, kaikilla muilla "/"-pyynnöillä paitsi jo ennalta määrätyillä.
